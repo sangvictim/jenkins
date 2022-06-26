@@ -9,8 +9,6 @@ node {
     }
   }
   stage('Insall Dependency'){
-    steps{
-        sh 'composer install'
-    }
+     sh 'composer install'
   }
 }
