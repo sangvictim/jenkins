@@ -3,7 +3,7 @@ pipeline{
     stages{
        stage('GetCode'){
             steps{
-                git 'git@github.com:sangvictim/jenkins.git'
+                git 'https://github.com/sangvictim/jenkins'
             }
          }        
        stage('Build'){
