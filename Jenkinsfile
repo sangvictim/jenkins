@@ -18,7 +18,7 @@ node {
     stage('Discord Notifier'){
         discordSend title: 'ini title',
             customUsername: 'Kriwil Bot 2', 
-            currentBuild.resultIsBetterOrEqualTo('SUCCESS')
+            webhookURL: 'https://discord.com/api/webhooks/990279909484154970/XGZRI5cKJkfNIusA3RIQ5CvUTSWl0WEkC8Xit5a5GyKQ79hvxw3LEbdqBNnKMwVy_DJf'
     }
     
 }
