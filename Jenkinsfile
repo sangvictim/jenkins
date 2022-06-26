@@ -20,7 +20,8 @@ node {
             customUsername: 'Kriwil Bot 2', 
             webhookURL: 'https://discord.com/api/webhooks/990279909484154970/XGZRI5cKJkfNIusA3RIQ5CvUTSWl0WEkC8Xit5a5GyKQ79hvxw3LEbdqBNnKMwVy_DJf',
             successful: currentBuild.resultIsBetterOrEqualTo('SUCCESS'),
-            result: 'SUCCESS|UNSTABLE|FAILURE|ABORTED'
+            result: 'SUCCESS|UNSTABLE|FAILURE|ABORTED',
+            unstable: false
     }
     
 }
