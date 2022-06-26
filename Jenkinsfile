@@ -1,6 +1,4 @@
 node {
-  agent any
-
   stage('SCM') {
     checkout scm
   }
