@@ -16,7 +16,7 @@ node {
     }
 
     stage('Discord Notifier'){
-        discordSend title: env.JOB_NAME,
+        discordSend title: 'ini title',
             customUsername: 'Kriwil Bot 2', 
             currentBuild.resultIsBetterOrEqualTo('SUCCESS')
     }
