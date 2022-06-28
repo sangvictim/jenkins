@@ -4,20 +4,20 @@ node {
       checkout scm
     }
     
-    stage('Insall Dependency'){
-      sh 'composer install'
-    }
+    // stage('Insall Dependency'){
+    //   sh 'composer install'
+    // }
     
-    stage('SonarQube Analysis') {
-      def scannerHome = tool 'sonarCube-scanner';
-      withSonarQubeEnv() {
-        sh "${scannerHome}/bin/sonar-scanner"
-      }
-    }
-
+    // stage('SonarQube Analysis') {
+    //   def scannerHome = tool 'sonarCube-scanner';
+    //   withSonarQubeEnv() {
+    //     sh "${scannerHome}/bin/sonar-scanner"
+    //   }
+    // }
+    
     stage('Discord Notifier'){
-        discordSend description: "Jenkins Pipeline Build, Commit: $GIT_COMMIT", 
-          footer: "Branch: $GIT_BRANCH", 
+        discordSend description: "Jenkins Pipeline Build, Commit: "-${GIT_COMMIT}, 
+          footer: "Branch: "-${GIT_COMMIT}, 
           link: env.BUILD_URL, 
           result: currentBuild.currentResult, 
           title: JOB_NAME, 
