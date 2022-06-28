@@ -16,8 +16,8 @@ node {
     // }
 
     stage('Discord Notifier'){
-      def discordDesc = "Branch: ${BRANCH_NAME}\nBuild: ${BUILD_NUMBER}\nStatus: ${currentBuild.currentResult}"
-      def discordNotes = "Hey <@id> has been ${currentBuild.currentResult} "
+      def discordDesc = "Branch: ${env.BRANCH_NAME}\nBuild: ${BUILD_NUMBER}\nStatus: ${currentBuild.currentResult}"
+      def discordNotes = "Hey <@id> has been ${currentBuild} "
 
         discordSend description: discordDesc, 
         notes: discordNotes,
