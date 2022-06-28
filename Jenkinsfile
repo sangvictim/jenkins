@@ -16,12 +16,13 @@ node {
     // }
 
     stage('Discord Notifier'){
-      def discordFooter = "Job: ${env.JOB_BASE_NAME}` (build #${BUILD_NUMBER})"
-        discordSend description: "Jenkins Pipeline Build, Commit: ", 
+      def discordFooter = "Job: ${BUILD_TAG}"
+      def discordDesc = "Branch: ${GIT_BRANCH}\nBuild:${BUILD_NUMBER}\nStatus:${currentBuild.currentResult}"
+
+        discordSend description: discordDesc, 
           footer: discordFooter, 
           link: env.JOB_URL, 
           result: currentBuild.currentResult,
-          successful: currentBuild.resultIsBetterOrEqualTo('SUCCESS'),
           title: JOB_NAME, 
           customUsername: 'Kriwil Bot', 
           webhookURL: "https://discord.com/api/webhooks/990279909484154970/XGZRI5cKJkfNIusA3RIQ5CvUTSWl0WEkC8Xit5a5GyKQ79hvxw3LEbdqBNnKMwVy_DJf"
