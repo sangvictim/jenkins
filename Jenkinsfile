@@ -17,7 +17,7 @@ node {
 
     stage('Discord Notifier'){
         discordSend description: "Jenkins Pipeline Build", 
-          footer: "Commit ${GIT_BRANCH}", 
+          footer: "Commit ${env.GIT_BRANCH}", 
           link: env.BUILD_URL, 
           result: currentBuild.currentResult, 
           title: JOB_NAME, 
