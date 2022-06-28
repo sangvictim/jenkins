@@ -17,11 +17,11 @@ node {
 
     stage('Discord Notifier'){
         discordSend description: "Jenkins Pipeline Build", 
-          footer: "Footer Text", 
+          footer: "Commit ${GIT_BRANCH}", 
           link: env.BUILD_URL, 
           result: currentBuild.currentResult, 
           title: JOB_NAME, 
-          customUsername: 'Kriwil Bot 2', 
+          customUsername: 'Kriwil Bot', 
           webhookURL: "https://discord.com/api/webhooks/990279909484154970/XGZRI5cKJkfNIusA3RIQ5CvUTSWl0WEkC8Xit5a5GyKQ79hvxw3LEbdqBNnKMwVy_DJf"
 
     }
