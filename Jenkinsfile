@@ -16,11 +16,9 @@ node {
     // }
 
     stage('Discord Notifier'){
-      def discordFooter = "Job: ${BUILD_TAG}"
-      def discordDesc = "Branch: ${env.GIT_BRANCH}\nBuild:${BUILD_NUMBER}\nStatus:${currentBuild.currentResult}"
+      def discordDesc = "Branch: env.GIT_BRANCH\nBuild: ${BUILD_NUMBER}\nStatus: ${currentBuild.currentResult}"
 
         discordSend description: discordDesc, 
-          footer: discordFooter, 
           link: env.JOB_URL, 
           result: currentBuild.currentResult,
           title: JOB_NAME, 
