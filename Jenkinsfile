@@ -16,11 +16,13 @@ node {
     // }
 
     stage('Discord Notifier'){
-      def discordDesc = "Branch: "-env.BRANCH_NAME-"\nBuild: ${BUILD_NUMBER}\nStatus: ${currentBuild}"
+      def discordDesc = "Branch: ${env.BRANCH_NAME}\nBuild: ${BUILD_NUMBER}\nStatus: ${currentBuild}"
       def discordNotes = "Hey <@id> has been ${currentBuild.currentResult} "
+      def discordFooter = "Build Duration: ${currentBuild.durationString}"
 
         discordSend description: discordDesc, 
-        notes: discordNotes,
+          notes: discordNotes,
+          footer: discordFooter
           link: env.JOB_URL, 
           result: currentBuild.currentResult,
           title: JOB_NAME, 
