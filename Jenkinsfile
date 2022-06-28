@@ -22,7 +22,7 @@ node {
 
         discordSend description: discordDesc, 
           notes: discordNotes,
-          footer: discordFooter
+          footer: discordFooter,
           link: env.JOB_URL, 
           result: currentBuild.currentResult,
           title: JOB_NAME, 
