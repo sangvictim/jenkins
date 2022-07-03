@@ -1,6 +1,7 @@
 node {
 
-  checkout scm
+  scm: ... 
+  checkout scm: scm
 
     // stage('Insall Dependency'){
     //   sh 'rm composer.lock'
@@ -15,7 +16,7 @@ node {
     // }
 
     stage('Discord Notifier'){
-      def discordDesc = "Branch: ${GIT_BRANCH}\nBuild: ${BUILD_NUMBER}\nStatus: ${currentBuild.currentResult}"
+      def discordDesc = "Branch: ${GIT_BRANCH}-${env.BRANCH_NAME}\nBuild: ${BUILD_NUMBER}\nStatus: ${currentBuild.currentResult}\nscm:${scm}\n"
       def discordFooter = "Build Duration: ${currentBuild.durationString}"
 
         discordSend description: discordDesc, 
