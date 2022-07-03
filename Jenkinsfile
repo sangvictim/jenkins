@@ -27,6 +27,7 @@ pipeline {
             steps{
                 withSonarQubeEnv('sonarcube') {
                     tool name: 'sonarCube-scanner'
+                    sh "sonarCube-scanner/bin/sonar-scanner"
                 }
             }
         }
