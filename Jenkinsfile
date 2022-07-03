@@ -43,7 +43,7 @@ pipeline {
                 discordFooter = "Build Duration: ${currentBuild.durationString}"
             }
 
-            stage{
+            steps{
                 discordSend description: discordDesc, 
                     footer: discordFooter,
                     link: env.JOB_URL, 
