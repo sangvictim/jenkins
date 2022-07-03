@@ -3,7 +3,8 @@ pipeline {
     stages {
         stage('Clone Repo') {
             steps {
-                git branch: 'main', credentialsId: 'github-local', url: 'https://github.com/sangvictim/jenkins'
+                // git branch: 'main', credentialsId: 'github-local', url: 'https://github.com/sangvictim/jenkins'
+                checkout scm
             }
         }
     }
