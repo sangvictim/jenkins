@@ -25,8 +25,8 @@ pipeline {
 
         stage('SonarQube Analysis') {
             steps{
-                withSonarQubeEnv(credentialsId: 'sonarCube') {
-                    // some block
+                withSonarQubeEnv('sonarcube') {
+                    sh "SonarScanner/bin/sonar-scanner"
                 }
             }
         }
