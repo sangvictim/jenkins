@@ -15,7 +15,7 @@ node {
     // }
 
     stage('Discord Notifier'){
-      def discordDesc = "Branch: ${GIT_BRANCH}-${env.BRANCH_NAME}\nBuild: ${BUILD_NUMBER}\nStatus: ${currentBuild.currentResult}\nscm:${scm}\n"
+      def discordDesc = "Branch: ${env.BRANCH_NAME}\nBuild: ${BUILD_NUMBER}\nStatus: ${currentBuild.currentResult}\nscm:${scm}\n"
       def discordFooter = "Build Duration: ${currentBuild.durationString}"
 
         discordSend description: discordDesc, 
