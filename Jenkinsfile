@@ -1,27 +1,8 @@
 pipeline {
-    agent any
-    parameters {
-        string (
-            defaultValue: '*',
-            description: '',
-            name : 'BRANCH_PATTERN')
-        booleanParam (
-            defaultValue: false,
-            description: '',
-            name : 'FORCE_FULL_BUILD')
-    }
-
     stages {
         stage ('Prepare') {
             steps {
-                checkout([$class: 'GitSCM',
-                    branches: [[name: "origin/${BRANCH_PATTERN}"]],
-                    doGenerateSubmoduleConfigurations: false,
-                    extensions: [[$class: 'LocalBranch']],
-                    submoduleCfg: [],
-                    userRemoteConfigs: [[
-                        credentialsId: 'bitwiseman_github',
-                        url: 'https://github.com/bitwiseman/hermann']]])
+                checkout scm
             }
         }
 
