@@ -38,8 +38,8 @@ pipeline {
 
         stage('Discord Notifier'){
             environment {
-                GIT_BRANCH = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
-                discordDesc = "Branch: ${$GIT_BRANCH}\nBuild: ${BUILD_NUMBER}\nStatus: ${currentBuild.currentResult}\n"
+                GIT_BRANCH = sh('git rev-parse --abbrev-ref HEAD')
+                discordDesc = "Branch: ${$GIT_BRANCH}\nBuild: #${BUILD_DISPLAY_NAME}\nStatus: ${currentBuild.currentResult}\n"
                 discordFooter = "Build Duration: ${currentBuild.durationString}"
             }
 
