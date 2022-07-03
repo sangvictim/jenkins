@@ -9,8 +9,8 @@ pipeline {
 
         stage ('Build') {
             steps {
-              GIT_BRANCH = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
-                echo "branch: ${GIT_BRANCH}"
+              env GIT_BRANCH = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
+                echo "branch: ${env.GIT_BRANCH}"
             }
         }
         stage ('Build Skipped') {
