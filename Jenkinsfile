@@ -24,7 +24,7 @@ node {
           result: currentBuild.currentResult,
           title: JOB_NAME, 
           customUsername: 'Kriwil Bot', 
-          webhookURL: 'https://discord.com/api/webhooks/990279909484154970/XGZRI5cKJkfNIusA3RIQ5CvUTSWl0WEkC8Xit5a5GyKQ79hvxw3LEbdqBNnKMwVy_DJf'
+          webhookURL: 'https://discord.com/api/webhooks/993056530280751144/OewXajqVs7usuWL8HRoki9KUfWVsWnmZm498Z15E0fVsFot9ZRd32ORQ1_TtK6hRgKHa'
 
     }
 }
