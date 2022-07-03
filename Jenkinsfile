@@ -1,7 +1,5 @@
 pipeline {
 
-  checkout scm
-
   stages{
     stage('Insall Dependency'){
       sh 'rm composer.lock'
