@@ -32,7 +32,9 @@ pipeline {
         //     }
         // }
         stage('SonarQube analysis') {
-            def scannerHome = tool 'sonarCube-scanner';
+            environment{
+                scannerHome = tool name: 'sonarCube-scanner';
+            }
             steps{
             withSonarQubeEnv('sonarqube-8.9') { 
                  sh "${scannerHome}/bin/sonar-scanner"
