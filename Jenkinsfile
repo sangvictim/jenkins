@@ -1,6 +1,8 @@
-node {
+pipeline {
+  stage('Checkout SCM') {
+    checkout scm
 
-  checkout scm: scm
+  }
 
     // stage('Insall Dependency'){
     //   sh 'rm composer.lock'
@@ -13,9 +15,10 @@ node {
     //     sh "${scannerHome}/bin/sonar-scanner"
     //   }
     // }
+    env GIT_BRANCH = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
 
     stage('Discord Notifier'){
-      def discordDesc = "Branch: ${env.BRANCH_NAME}\nBuild: ${BUILD_NUMBER}\nStatus: ${currentBuild.currentResult}\nscm:${scm}\n"
+      def discordDesc = "Branch: ${$GIT_BRANCH}\nBuild: ${BUILD_NUMBER}\nStatus: ${currentBuild.currentResult}\n"
       def discordFooter = "Build Duration: ${currentBuild.durationString}"
 
         discordSend description: discordDesc, 
