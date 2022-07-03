@@ -22,6 +22,13 @@ pipeline {
                 sh 'php artisan key:generate'
             }
         }
+
+        stage('SonarQube Analysis') {
+            def scannerHome = tool 'sonarCube-scanner';
+            withSonarQubeEnv() {
+                sh "${scannerHome}/bin/sonar-scanner"
+            }
+        }
     }
     post { 
         always { 
