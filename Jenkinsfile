@@ -26,7 +26,7 @@ pipeline {
         stage('SonarQube Analysis') {
             steps{
                 withSonarQubeEnv('sonarcube') {
-                    sh 'mvn clean package sonar:sonar'
+                    sh "tool SonarScanner/bin/sonar-scanner"
                 }
             }
         }
