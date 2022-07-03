@@ -1,33 +1,65 @@
-node {
-  stage('Checkout SCM') {
-    checkout scm
+pipeline {
+    agent any
+    parameters {
+        string (
+            defaultValue: '*',
+            description: '',
+            name : 'BRANCH_PATTERN')
+        booleanParam (
+            defaultValue: false,
+            description: '',
+            name : 'FORCE_FULL_BUILD')
+    }
 
-  }
+    stages {
+        stage ('Prepare') {
+            steps {
+                checkout([$class: 'GitSCM',
+                    branches: [[name: "origin/${BRANCH_PATTERN}"]],
+                    doGenerateSubmoduleConfigurations: false,
+                    extensions: [[$class: 'LocalBranch']],
+                    submoduleCfg: [],
+                    userRemoteConfigs: [[
+                        credentialsId: 'bitwiseman_github',
+                        url: 'https://github.com/bitwiseman/hermann']]])
+            }
+        }
 
-    // stage('Insall Dependency'){
-    //   sh 'rm composer.lock'
-    //   sh 'composer install'
-    // } 
-
-    // stage('SonarQube Analysis') {
-    //   def scannerHome = tool 'sonarCube-scanner';
-    //   withSonarQubeEnv() {
-    //     sh "${scannerHome}/bin/sonar-scanner"
-    //   }
-    // }
-
-    stage('Discord Notifier'){
-      env GIT_BRANCH = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
-      def discordDesc = "Branch: ${$GIT_BRANCH}\nBuild: ${BUILD_NUMBER}\nStatus: ${currentBuild.currentResult}\n"
-      def discordFooter = "Build Duration: ${currentBuild.durationString}"
-
-        discordSend description: discordDesc, 
-          footer: discordFooter,
-          link: env.JOB_URL, 
-          result: currentBuild.currentResult,
-          title: JOB_NAME, 
-          customUsername: 'Kriwil Bot', 
-          webhookURL: 'https://discord.com/api/webhooks/993056530280751144/OewXajqVs7usuWL8HRoki9KUfWVsWnmZm498Z15E0fVsFot9ZRd32ORQ1_TtK6hRgKHa'
-
+        stage ('Build') {
+            when {
+                expression {
+                    GIT_BRANCH = 'origin/' + sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
+                    return GIT_BRANCH == 'origin/master' || params.FORCE_FULL_BUILD
+                }
+            }
+            steps {
+                // Freestyle build trigger calls a list of jobs
+                // Pipeline build() step only calls one job
+                // To run all three jobs in parallel, we use "parallel" step
+                // https://jenkins.io/doc/pipeline/examples/#jobs-in-parallel
+                parallel (
+                    linux: {
+                        build job: 'full-build-linux', parameters: [string(name: 'GIT_BRANCH_NAME', value: GIT_BRANCH)]
+                    },
+                    mac: {
+                        build job: 'full-build-mac', parameters: [string(name: 'GIT_BRANCH_NAME', value: GIT_BRANCH)]
+                    },
+                    windows: {
+                        build job: 'full-build-windows', parameters: [string(name: 'GIT_BRANCH_NAME', value: GIT_BRANCH)]
+                    },
+                    failFast: false)
+            }
+        }
+        stage ('Build Skipped') {
+            when {
+                expression {
+                    GIT_BRANCH = 'origin/' + sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
+                    return !(GIT_BRANCH == 'origin/master' || params.FORCE_FULL_BUILD)
+                }
+            }
+            steps {
+                echo 'Skipped full build.'
+            }
+        }
     }
 }
