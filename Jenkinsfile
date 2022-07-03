@@ -14,21 +14,7 @@ pipeline {
                 }
             }
             steps {
-                // Freestyle build trigger calls a list of jobs
-                // Pipeline build() step only calls one job
-                // To run all three jobs in parallel, we use "parallel" step
-                // https://jenkins.io/doc/pipeline/examples/#jobs-in-parallel
-                parallel (
-                    linux: {
-                        build job: 'full-build-linux', parameters: [string(name: 'GIT_BRANCH_NAME', value: GIT_BRANCH)]
-                    },
-                    mac: {
-                        build job: 'full-build-mac', parameters: [string(name: 'GIT_BRANCH_NAME', value: GIT_BRANCH)]
-                    },
-                    windows: {
-                        build job: 'full-build-windows', parameters: [string(name: 'GIT_BRANCH_NAME', value: GIT_BRANCH)]
-                    },
-                    failFast: false)
+                echo ${GIT_BRANCH}
             }
         }
         stage ('Build Skipped') {
