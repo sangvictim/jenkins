@@ -23,12 +23,20 @@ pipeline {
         //     }
         // }
 
-        stage('SonarQube Analysis') {
+        // stage('SonarQube Analysis') {
+        //     steps{
+        //         withSonarQubeEnv('sonarcube') {
+        //             tool name: 'sonarCube-scanner'
+        //             sh "sonarCube-scanner/bin/sonar-scanner"
+        //         }
+        //     }
+        // }
+        stage('SonarQube analysis') {
+            def scannerHome = tool 'sonarCube-scanner';
             steps{
-                withSonarQubeEnv('sonarcube') {
-                    tool name: 'sonarCube-scanner'
-                    sh "sonarCube-scanner/bin/sonar-scanner"
-                }
+            withSonarQubeEnv('sonarqube-8.9') { 
+                 sh "${scannerHome}/bin/sonar-scanner"
+            }
             }
         }
     }
