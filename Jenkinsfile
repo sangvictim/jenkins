@@ -1,6 +1,5 @@
 node {
 
-  scm: ... 
   checkout scm: scm
 
     // stage('Insall Dependency'){
