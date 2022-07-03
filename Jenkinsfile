@@ -23,23 +23,37 @@ pipeline {
         //     }
         // }
 
-        // stage('SonarQube Analysis') {
+        // stage('SonarQube analysis') {
+        //     // SonarQube Scanner in Global Tool Configuration
+        //     environment{
+        //         scannerHome = tool name: 'sonarCube-scanner';
+        //     }
         //     steps{
-        //         withSonarQubeEnv('sonarcube') {
-        //             tool name: 'sonarCube-scanner'
-        //             sh "sonarCube-scanner/bin/sonar-scanner"
-        //         }
+        //     // name sonar sever in the global configure
+        //     withSonarQubeEnv('sonarcube') { 
+        //          sh "${scannerHome}/bin/sonar-scanner"
+        //     }
         //     }
         // }
-        stage('SonarQube analysis') {
-            environment{
-                scannerHome = tool name: 'sonarCube-scanner';
+
+        stage('Discord Notifier'){
+            environment {
+                GIT_BRANCH = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
+                discordDesc = "Branch: ${$GIT_BRANCH}\nBuild: ${BUILD_NUMBER}\nStatus: ${currentBuild.currentResult}\n"
+                discordFooter = "Build Duration: ${currentBuild.durationString}"
             }
-            steps{
-            withSonarQubeEnv('sonarcube') { 
-                 sh "${scannerHome}/bin/sonar-scanner"
+
+            stage{
+                discordSend description: discordDesc, 
+                    footer: discordFooter,
+                    link: env.JOB_URL, 
+                    result: currentBuild.currentResult,
+                    title: JOB_NAME, 
+                    customUsername: 'Kriwil Bot', 
+                    webhookURL: 'https://discord.com/api/webhooks/993056530280751144/OewXajqVs7usuWL8HRoki9KUfWVsWnmZm498Z15E0fVsFot9ZRd32ORQ1_TtK6hRgKHa'
             }
-            }
+
+
         }
     }
     post { 
