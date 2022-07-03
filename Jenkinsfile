@@ -1,10 +1,15 @@
 pipeline {
     agent any
     stages {
-        stage('Clone Repo') {
+        stage("Build") {
             steps {
-                // git branch: 'main', credentialsId: 'github-local', url: 'https://github.com/sangvictim/jenkins'
-                checkout scm
+                sh 'php --version'
+                sh 'rm composer.lock'
+                sh 'rm vendor'
+                sh 'composer install'
+                sh 'composer --version'
+                sh 'cp .env.example .env'
+                sh 'php artisan key:generate'
             }
         }
     }
