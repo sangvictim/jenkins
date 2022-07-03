@@ -15,9 +15,9 @@ node {
     //     sh "${scannerHome}/bin/sonar-scanner"
     //   }
     // }
-    env GIT_BRANCH = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
 
     stage('Discord Notifier'){
+      def GIT_BRANCH = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
       def discordDesc = "Branch: ${$GIT_BRANCH}\nBuild: ${BUILD_NUMBER}\nStatus: ${currentBuild.currentResult}\n"
       def discordFooter = "Build Duration: ${currentBuild.durationString}"
 
