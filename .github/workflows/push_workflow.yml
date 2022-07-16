@@ -6,9 +6,26 @@ on:
 jobs:
   run:
     runs-on: self-hosted
+    env:
+      DB_DATABASE: jenkins
+      DB_USERNAME: root
+      DB_PASSWORD: 123456
+
     strategy:
       matrix:
         php-version: ['8.1']
+
+    services:
+      mysql:
+        image: mysql:latest
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: false
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: laravel
+        ports:
+          - 3306/tcp
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
 
     steps:
       - name: Checkout code
@@ -17,7 +34,7 @@ jobs:
       - name: Setup PHP and Composer
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1'
+          php-version: ${{ matrix.php-version }}
           tools: composer:v2
 
       - name: Install Composer dependencies
@@ -33,5 +50,7 @@ jobs:
       
       - name: Run Migration and seeder
         run: php artisan migrate --seed
+        env:
+          DB_PORT: ${{ job.services.mysql.ports['3306'] }}
 
     
