@@ -11,27 +11,27 @@ jobs:
         php-version: ['8.0']
 
     steps:
-      name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v2
 
-      name: Setup PHP and Composer
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: ${{ matrix.php-versions }}
-        tools: composer:v2
+      - name: Setup PHP and Composer
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          tools: composer:v2
 
-      name: Install Composer dependencies
+      - name: Install Composer dependencies
         run: composer install --no-progress --prefer-dist --optimize-autoloader --no-dev
 
-      name: Prepare the application
+      - name: Prepare the application
         run: |
           php -r "file_exists('.env') || copy('.env.example', '.env');"
           php artisan key:generate
 
-      name: Clear Config
+      - name: Clear Config
         run: php artisan config:clear
       
-      name: Run Migration and seeder
+      - name: Run Migration and seeder
         run: php artisan migrate --seed
 
     
