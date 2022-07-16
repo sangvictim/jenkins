@@ -2,13 +2,37 @@ on:
   push:
     branches:
       - main
+      - development
 jobs:
-  build-production:
-    name: Build Laravel Application
+  run:
     runs-on: self-hosted
-    if: github.ref == 'refs/heads/main'
+    strategy:
+      matrix:
+        php-version: ['8.0']
+
+    name: PHP ${{ matrix.php-versions }}
     steps:
-      - uses: actions/checkout@v1
-      - name: NPM Build
+      name: Checkout
+        uses: actions/checkout@v3
+
+      name: Setup PHP and Composer
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php-versions }}
+        tools: composer:v2
+
+      name: Install Composer dependencies
+        run: composer install --no-progress --prefer-dist --optimize-autoloader --no-dev
+
+      name: Prepare the application
         run: |
-          composer install
+          php -r "file_exists('.env') || copy('.env.example', '.env');"
+          php artisan key:generate
+
+      name: Clear Config
+        run: php artisan config:clear
+      
+      name: Run Migration and seeder
+        run: php artisan migrate --seed
+
+    
