@@ -39,6 +39,5 @@ jobs:
     steps:
       - name: remote shh
         run: |
-          ssh jkt_48
-          whoami
+          ssh jkt_48 && whoami
 
