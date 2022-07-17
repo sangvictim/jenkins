@@ -8,24 +8,24 @@ jobs:
     runs-on: self-hosted
 
     steps:
-      - name: Checkout code
+        name: Checkout code
         uses: actions/checkout@v2
         run: | 
           git checkout main
           git pull origin main
 
-      - name: Install Composer dependencies
+        name: Install Composer dependencies
         run: rm -rf vendor
         run: composer install --no-progress --prefer-dist --optimize-autoloader --no-dev
 
-      - name: Prepare the application
+        name: Prepare the application
         run: |
           php -r "file_exists('.env') || copy('.env.example', '.env');"
           php artisan key:generate
 
-      - name: Clear Config
+        name: Clear Config
         run: php artisan config:clear
       
-      - name: CLear Cache
+        name: CLear Cache
         run: php artisan optimize
 
