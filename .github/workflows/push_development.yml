@@ -2,11 +2,11 @@ name: Deploy Development
 on:
   push:
     branches: [ development ]
-jobs:
-  name: Build Application
-  run:
-    runs-on: self-hosted
 
+jobs:
+  deploy: 
+    runs-on: self-hosted
+    
     steps:
       - name: Checkout code
         uses: actions/checkout@v2

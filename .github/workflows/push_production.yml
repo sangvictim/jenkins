@@ -2,9 +2,9 @@ name: Deploy Production
 on:
   push:
     branches: [ main ]
+
 jobs:
-  name: Build Application
-  run:
+  deploy: 
     runs-on: self-hosted
 
     steps:
