@@ -8,23 +8,26 @@ jobs:
     runs-on: self-hosted
 
     steps:
-        name: Checkout code
-        run: | 
-          git checkout main
-          git pull origin main
+      name: Checkout
+      uses: actions/checkout@v2
 
-        name: Install Composer dependencies
-        run: rm -rf vendor
-        run: composer install --no-progress --prefer-dist --optimize-autoloader --no-dev
+      name: Checkout code
+      run: | 
+        git checkout main
+        git pull origin main
 
-        name: Prepare the application
-        run: |
-          php -r "file_exists('.env') || copy('.env.example', '.env');"
-          php artisan key:generate
+      name: Install Composer dependencies
+      run: rm -rf vendor
+      run: composer install --no-progress --prefer-dist --optimize-autoloader --no-dev
 
-        name: Clear Config
-        run: php artisan config:clear
-      
-        name: CLear Cache
-        run: php artisan optimize
+      name: Prepare the application
+      run: |
+        php -r "file_exists('.env') || copy('.env.example', '.env');"
+        php artisan key:generate
+
+      name: Clear Config
+      run: php artisan config:clear
+    
+      name: CLear Cache
+      run: php artisan optimize
 
