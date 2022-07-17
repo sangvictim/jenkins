@@ -4,30 +4,30 @@ on:
     branches: [ main ]
 
 jobs:
-  deploy: 
+  compile-assets:
+    name: Compile assets
     runs-on: self-hosted
-
     steps:
-      name: Checkout
-      uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-      name: Checkout code
-      run: | 
-        git checkout main
-        git pull origin main
+      - name: Checkout code
+        run: | 
+          git checkout main
+          git pull origin main
 
-      name: Install Composer dependencies
-      run: rm -rf vendor
-      run: composer install --no-progress --prefer-dist --optimize-autoloader --no-dev
+      - name: Install Composer dependencies
+        run: |
+          rm -rf vendor
+          composer install --no-progress --prefer-dist --optimize-autoloader --no-dev
 
-      name: Prepare the application
-      run: |
-        php -r "file_exists('.env') || copy('.env.example', '.env');"
-        php artisan key:generate
+      - name: Prepare the application
+        run: |
+          php -r "file_exists('.env') || copy('.env.example', '.env');"
+          php artisan key:generate
 
-      name: Clear Config
-      run: php artisan config:clear
+      - name: Clear Config
+        run: php artisan config:clear
     
-      name: CLear Cache
-      run: php artisan optimize
+      - name: CLear Cache
+        run: php artisan optimize
 
