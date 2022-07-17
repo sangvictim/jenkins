@@ -8,9 +8,10 @@ jobs:
     name: Compile assets
     runs-on: self-hosted
     steps:
-      - uses: actions/checkout@v2
-
       - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Checkout branch to main
         run: | 
           git checkout main
           git pull origin main
@@ -30,4 +31,14 @@ jobs:
     
       - name: CLear Cache
         run: php artisan optimize
+        
+  deploy:
+    name: Deploy to production
+    runs-on: self-hosted
+    needs: [ compile-assets ]
+    steps:
+      - name: remote shh
+        run: |
+          ssh jkt_48
+          whoami
 
